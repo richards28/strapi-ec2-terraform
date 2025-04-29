@@ -6,6 +6,7 @@ resource "aws_instance" "strapi_server" {
   ami           = "ami-05206bf8aecfc7ae6"
   instance_type = "t2.large"         
   key_name      = "keypair2"
+  associate_public_ip_address = true
   root_block_device {
     volume_size = 30
     volume_type = "gp3"
@@ -51,6 +52,20 @@ resource "aws_security_group" "strapi_sg" {
     to_port     = 1337
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # open Strapi admin panel
+  }
+  ingress {
+    description = "https"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
