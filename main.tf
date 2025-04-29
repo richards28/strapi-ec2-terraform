@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "strapi_server" {
-  ami           = "ami-026c39f4021df9abe"
+  ami           = "ami-05206bf8aecfc7ae6"
   instance_type = "t2.medium"         
   key_name      = "keypair2"           
 
@@ -11,16 +11,18 @@ resource "aws_instance" "strapi_server" {
 
   user_data = <<-EOF
               #!/bin/bash
-              apt-get update -y
-              apt-get install -y nodejs npm
-              npm install -g yarn
-              curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-              apt-get install -y nodejs
-              git clone https://github.com/richards28/strapi.git
-              cd /home/ubuntu/strapi
+              yum update -y
+              curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
+              yum install -y nodejs git
+              npm install -g yarn pm2
+              git clone https://github.com/richards28/strapi.git /home/ec2-user/strapi
+              cd /home/ec2-user/strapi
               yarn install
               yarn build
-              yarn start
+              pm2 start yarn --name strapi -- start
+              pm2 save
+              pm2 startup
+
               EOF
 
   tags = {
