@@ -17,7 +17,7 @@ resource "aws_instance" "strapi_server" {
               curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
               apt-get install -y nodejs
               git clone https://github.com/richards28/strapi.git
-              cd /home/ubuntu/strapi-app
+              cd /home/ubuntu/strapi
               yarn install
               yarn build
               yarn start
