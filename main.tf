@@ -23,6 +23,9 @@ resource "aws_instance" "strapi_server" {
               cd /home/ec2-user/strapi
               yarn install
               yarn build
+              npx create-strapi-app@latest my-project
+              cd my-project 
+              npm run develop
               pm2 start yarn --name strapi -- start
               pm2 save
               pm2 startup
