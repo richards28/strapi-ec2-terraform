@@ -5,8 +5,11 @@ provider "aws" {
 resource "aws_instance" "strapi_server" {
   ami           = "ami-05206bf8aecfc7ae6"
   instance_type = "t2.medium"         
-  key_name      = "keypair2"           
-
+  key_name      = "keypair2"
+  root_block_device {
+    volume_size = 30
+    volume_type = "gp3"
+   }
   security_groups = [aws_security_group.strapi_sg.name]
 
   user_data = <<-EOF
